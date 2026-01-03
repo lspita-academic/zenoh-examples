@@ -1,0 +1,19 @@
+**/*.md
+.git/
+
+# direnv
+.direnv/
+.envrc
+
+# rust
+/target
+
+# nix
+flake.lock
+flake.nix
+
+# docker
+**/compose.yaml
+**/*.compose.yaml
+**/Containerfile.yaml
+**/*.containerfile.yaml

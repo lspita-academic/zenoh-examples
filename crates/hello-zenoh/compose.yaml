@@ -1,0 +1,16 @@
+name: zenoh-examples/hello-zenoh
+services:
+  pub:
+    build:
+      context: ../..
+      dockerfile: containers/crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: pub
+  sub:
+    build:
+      context: ../..
+      dockerfile: containers/crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: sub
