@@ -12,11 +12,6 @@ async fn main() {
     let info = session.info();
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
-    println!(
-        "Routers: {:?}",
-        info.routers_zid().await.collect::<Vec<_>>()
-    );
-
     let publisher = session.declare_publisher(KEY).await.unwrap();
     println!("Publisher for {} created successfully", KEY);
     sleep(Duration::from_millis(1000)).await; // wait for subscriber to start

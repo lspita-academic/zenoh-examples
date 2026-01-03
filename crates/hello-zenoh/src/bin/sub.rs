@@ -9,11 +9,6 @@ async fn main() {
     let info = session.info();
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
-    println!(
-        "Routers: {:?}",
-        info.routers_zid().await.collect::<Vec<_>>()
-    );
-
     let subscriber = session.declare_subscriber(KEY).await.unwrap();
     println!("Subscriber for {} created successfully", KEY);
     println!("Starting read loop");
