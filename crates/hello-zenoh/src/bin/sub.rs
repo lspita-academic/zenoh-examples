@@ -19,5 +19,6 @@ async fn main() {
             .expect("payload must be a string");
         println!("Received {} from {}", payload, sample.key_expr());
     }
+    // Subscriber is independent from the publisher, so the loop never ends
     println!("Finished reading");
 }
