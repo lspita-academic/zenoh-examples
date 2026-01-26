@@ -1,4 +1,7 @@
-FROM rust:1.92.0-slim AS chef
+ARG DISTRO=alpine
+ARG DISTRO_VERSION=3.23
+
+FROM rust:1.92.0-${DISTRO}${DISTRO_VERSION} AS chef
 RUN cargo install cargo-chef --locked
 WORKDIR /app
 
@@ -19,7 +22,8 @@ ARG CRATE_NAME
 WORKDIR ${CRATES_ROOT}/${CRATE_NAME}
 RUN cargo build --bins
 
-FROM debian:trixie-slim
+FROM ${DISTRO}:${DISTRO_VERSION} AS runtime
 ARG BIN_NAME
 COPY --from=builder /app/target/debug/${BIN_NAME} /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
