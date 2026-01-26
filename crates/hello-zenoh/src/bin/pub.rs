@@ -18,7 +18,6 @@ async fn main() {
     let publisher = session.declare_publisher(KEY).await.unwrap();
     println!("Publisher for {} created successfully", KEY);
 
-    sleep(Duration::from_millis(1000)).await; // wait for subscriber to start
     println!("Starting publishing");
     for i in 0..10 {
         let buffer = format!("HELLO#{}", i);

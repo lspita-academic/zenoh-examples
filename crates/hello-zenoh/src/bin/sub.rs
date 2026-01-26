@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use hello_zenoh::{KEY, get_config};
 
 #[tokio::main]
@@ -16,13 +18,25 @@ async fn main() {
     println!("Subscriber for {} created successfully", KEY);
 
     println!("Starting read loop");
-    while let Ok(sample) = subscriber.recv_async().await {
-        let payload = sample
-            .payload()
-            .try_to_string()
-            .expect("payload must be a string");
-        println!("Received {} from {}", payload, sample.key_expr());
+    let timeout = Duration::from_millis(3000);
+    loop {
+        match subscriber.recv_timeout(timeout) {
+            Err(e) => {
+                println!("Error receiving data: {}", e);
+                break;
+            }
+            Ok(None) => {
+                println!("Time exceeded to receive data");
+                break;
+            }
+            Ok(Some(sample)) => {
+                let payload = sample
+                    .payload()
+                    .try_to_string()
+                    .expect("payload must be a string");
+                println!("Received {} from {}", payload, sample.key_expr());
+            }
+        }
     }
-    // Subscriber is independent from the publisher, so the loop never ends
     println!("Finished reading");
 }
