@@ -1,6 +1,6 @@
-# Example pub/sub with Zenoh
+# Pub/sub hello world with Zenoh
 
-https://zenoh.io/docs/getting-started/first-app/
+Revisitation of the [first example app from the docs](https://zenoh.io/docs/getting-started/first-app/)
 
 ## Structure
 
