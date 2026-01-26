@@ -1,8 +1,8 @@
 ARG RUST_VERSION=1.92.0
-ARG DISTRO=alpine
+ARG DISTRO_NAME=alpine
 ARG DISTRO_VERSION=3.23
 
-FROM rust:${RUST_VERSION}-${DISTRO}${DISTRO_VERSION} AS chef
+FROM rust:${RUST_VERSION}-${DISTRO_NAME}${DISTRO_VERSION} AS chef
 RUN cargo install cargo-chef --locked
 WORKDIR /app
 
@@ -23,7 +23,7 @@ ARG CRATE_NAME
 WORKDIR ${CRATES_ROOT}/${CRATE_NAME}
 RUN cargo build --bins
 
-FROM ${DISTRO}:${DISTRO_VERSION} AS runtime
+FROM ${DISTRO_NAME}:${DISTRO_VERSION} AS runtime
 ARG BIN_NAME
 COPY --from=builder /app/target/debug/${BIN_NAME} /usr/local/bin/entrypoint
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
