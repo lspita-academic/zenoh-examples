@@ -1,7 +1,8 @@
+ARG RUST_VERSION=1.92.0
 ARG DISTRO=alpine
 ARG DISTRO_VERSION=3.23
 
-FROM rust:1.92.0-${DISTRO}${DISTRO_VERSION} AS chef
+FROM rust:${RUST_VERSION}-${DISTRO}${DISTRO_VERSION} AS chef
 RUN cargo install cargo-chef --locked
 WORKDIR /app
 
@@ -25,5 +26,4 @@ RUN cargo build --bins
 FROM ${DISTRO}:${DISTRO_VERSION} AS runtime
 ARG BIN_NAME
 COPY --from=builder /app/target/debug/${BIN_NAME} /usr/local/bin/entrypoint
-RUN chmod +x /usr/local/bin/entrypoint
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
