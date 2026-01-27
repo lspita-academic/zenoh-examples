@@ -1,7 +1,7 @@
 use std::time::Duration;
-use tokio::time::sleep;
+use tokio::time;
 
-use hello_zenoh::{KEY, get_config};
+use hello_zenoh_pub_sub::{KEY, get_config};
 
 #[tokio::main]
 async fn main() {
@@ -23,7 +23,7 @@ async fn main() {
         let buffer = format!("HELLO#{}", i);
         println!("Publishing {} at {}", buffer, KEY);
         publisher.put(buffer).await.unwrap();
-        sleep(Duration::from_millis(1000)).await;
+        time::sleep(Duration::from_secs(1)).await;
     }
     println!("Finished publishing");
 }

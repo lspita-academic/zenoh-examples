@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use hello_zenoh::{KEY, get_config};
+use hello_zenoh_pub_sub::{KEY, get_config};
 
 #[tokio::main]
 async fn main() {
@@ -18,11 +18,11 @@ async fn main() {
     println!("Subscriber for {} created successfully", KEY);
 
     println!("Starting read loop");
-    let timeout = Duration::from_millis(3000);
+    let timeout = Duration::from_secs(3);
     loop {
         match subscriber.recv_timeout(timeout) {
             Err(e) => {
-                println!("Error receiving data: {}", e);
+                println!("Error receiving data: {:?}", e);
                 break;
             }
             Ok(None) => {

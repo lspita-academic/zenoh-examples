@@ -1,16 +1,16 @@
-name: zenoh-examples/hello-zenoh
+name: zenoh-examples/hello-zenoh-pub-sub
 services:
   pub:
     build:
       context: ../..
       dockerfile: containers/crate_bin.containerfile
       args:
-        CRATE_NAME: hello-zenoh
+        CRATE_NAME: hello-zenoh-pub-sub
         BIN_NAME: pub
   sub:
     build:
       context: ../..
       dockerfile: containers/crate_bin.containerfile
       args:
-        CRATE_NAME: hello-zenoh
+        CRATE_NAME: hello-zenoh-pub-sub
         BIN_NAME: sub
