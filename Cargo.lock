@@ -792,6 +792,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "hello-zenoh-query-reply"
+version = "0.1.0"
+dependencies = [
+ "tokio",
+ "zenoh",
+]
+
+[[package]]
 name = "hermit-abi"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

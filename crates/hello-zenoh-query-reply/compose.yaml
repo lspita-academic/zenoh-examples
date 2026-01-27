@@ -1,0 +1,16 @@
+name: zenoh-examples/hello-zenoh-query-reply
+services:
+  queryable:
+    build:
+      context: ../..
+      dockerfile: containers/crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh-query-reply
+        BIN_NAME: queryable
+  querier:
+    build:
+      context: ../..
+      dockerfile: containers/crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh-query-reply
+        BIN_NAME: querier
