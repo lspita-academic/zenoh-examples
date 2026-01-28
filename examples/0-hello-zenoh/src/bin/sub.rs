@@ -1,6 +1,5 @@
 use std::time::Duration;
 
-use common::config;
 use hello_zenoh::KEY;
 
 #[tokio::main]
@@ -15,27 +14,29 @@ async fn main() {
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
 
-    let queryable = session.declare_queryable(KEY).await.unwrap();
-    println!("Queryable for {} created successfully", KEY);
+    let subscriber = session.declare_subscriber(KEY).await.unwrap();
+    println!("Subscriber for {} created successfully", KEY);
 
-    println!("Starting reply loop");
+    println!("Starting read loop");
     let timeout = Duration::from_secs(3);
-    for i in 0..10 {
-        match queryable.recv_timeout(timeout) {
+    loop {
+        match subscriber.recv_timeout(timeout) {
             Err(e) => {
                 println!("Error receiving data: {:?}", e);
                 break;
             }
             Ok(None) => {
-                println!("Time exceeded to receive query");
+                println!("Time exceeded to receive data");
                 break;
             }
-            Ok(Some(query)) => {
-                let buffer = format!("HELLO#{}", i);
-                println!("Replying with {} at {}", buffer, query.selector());
-                query.reply(KEY, buffer).await.unwrap();
+            Ok(Some(sample)) => {
+                let payload = sample
+                    .payload()
+                    .try_to_string()
+                    .expect("payload must be a string");
+                println!("Received {} from {}", payload, sample.key_expr());
             }
         }
     }
-    println!("Finished replying");
+    println!("Finished reading");
 }

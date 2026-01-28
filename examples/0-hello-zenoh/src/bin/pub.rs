@@ -1,7 +1,6 @@
 use std::time::Duration;
 use tokio::time;
 
-use common::config;
 use hello_zenoh::KEY;
 
 #[tokio::main]

@@ -2,7 +2,6 @@ use std::time::Duration;
 use tokio::time;
 
 use hello_zenoh::KEY;
-use common::config;
 
 #[tokio::main]
 async fn main() {
