@@ -68,4 +68,7 @@ cargo run --bin sub &
 By default, zenoh uses peer to peer communication to make all application talk directly to each other, leveraging multicast and gossip scouting to discover new peers and routers in the network.
 When increasing the number of peers, a peer mesh should be considered to avoid having too many connections open.
 
+When applications run on the same host, zenoh optimized inter process communication using pipes instead of the network.
+
 See: [zenoh deployment modes](https://zenoh.io/docs/getting-started/deployment/)
+See: [zenoh ultra low-latency](https://zenoh.io/blog/2023-10-03-zenoh-dragonite/#support-for-ultra-low-latency)
