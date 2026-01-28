@@ -239,6 +239,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "common"
+version = "0.1.0"
+dependencies = [
+ "zenoh",
+]
+
+[[package]]
 name = "concurrent-queue"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -784,17 +791,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "hello-zenoh-pub-sub"
+name = "hello-zenoh"
 version = "0.1.0"
 dependencies = [
- "tokio",
- "zenoh",
-]
-
-[[package]]
-name = "hello-zenoh-query-reply"
-version = "0.1.0"
-dependencies = [
+ "common",
  "tokio",
  "zenoh",
 ]

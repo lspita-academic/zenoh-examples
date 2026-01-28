@@ -1,13 +1,14 @@
 use std::time::Duration;
 use tokio::time;
 
-use hello_zenoh_pub_sub::{KEY, get_config};
+use common::config;
+use hello_zenoh::KEY;
 
 #[tokio::main]
 async fn main() {
     println!("Starting publisher");
 
-    let config = get_config();
+    let config = config::get_default();
     let session = zenoh::open(config).await.unwrap();
     println!("Session opened successfully");
 

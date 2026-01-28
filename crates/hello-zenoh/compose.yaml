@@ -1,0 +1,41 @@
+name: zenoh-examples/hello-zenoh-pub-sub
+services:
+  pub:
+    build:
+      context: ../..
+      dockerfile: containers/rust_crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: pub
+    deploy:
+      replicas: ${HELLO_ZENOH_PUB_REPLICAS:-0}
+
+  sub:
+    build:
+      context: ../..
+      dockerfile: containers/rust_crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: sub
+    deploy:
+      replicas: ${HELLO_ZENOH_SUB_REPLICAS:-0}
+
+  queryable:
+    build:
+      context: ../..
+      dockerfile: containers/rust_crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: queryable
+    deploy:
+      replicas: ${HELLO_ZENOH_QUERYABLE_REPLICAS:-0}
+
+  querier:
+    build:
+      context: ../..
+      dockerfile: containers/rust_crate_bin.containerfile
+      args:
+        CRATE_NAME: hello-zenoh
+        BIN_NAME: querier
+    deploy:
+      replicas: ${HELLO_ZENOH_QUERIER_REPLICAS:-0}

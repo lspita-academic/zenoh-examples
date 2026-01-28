@@ -1,10 +1,13 @@
-use hello_zenoh_query_reply::{KEY, get_config};
+use std::time::Duration;
+
+use common::config;
+use hello_zenoh::KEY;
 
 #[tokio::main]
 async fn main() {
     println!("Starting subscriber");
 
-    let config = get_config();
+    let config = config::get_default();
     let session = zenoh::open(config).await.unwrap();
     println!("Session opened successfully");
 
@@ -16,13 +19,18 @@ async fn main() {
     println!("Queryable for {} created successfully", KEY);
 
     println!("Starting reply loop");
+    let timeout = Duration::from_secs(3);
     for i in 0..10 {
-        match queryable.recv_async().await {
+        match queryable.recv_timeout(timeout) {
             Err(e) => {
                 println!("Error receiving data: {:?}", e);
                 break;
             }
-            Ok(query) => {
+            Ok(None) => {
+                println!("Time exceeded to receive query");
+                break;
+            }
+            Ok(Some(query)) => {
                 let buffer = format!("HELLO#{}", i);
                 println!("Replying with {} at {}", buffer, query.selector());
                 query.reply(KEY, buffer).await.unwrap();
