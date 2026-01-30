@@ -1,4 +1,4 @@
-# Pub/sub hello world with Zenoh
+# Hello Zenoh
 
 Basic implementation of the two zenoh communication models.
 
