@@ -1,6 +1,5 @@
 # TO-DO
 
-- [ ] Markdown footnotes for readme docs links
 - [ ] Reference manual sections
   - [ ] Abstractions:
     - [ ] Key expressions and selectors
