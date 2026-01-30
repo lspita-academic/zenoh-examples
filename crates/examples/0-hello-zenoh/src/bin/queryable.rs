@@ -4,7 +4,7 @@ use hello_zenoh::KEY;
 
 #[tokio::main]
 async fn main() {
-    println!("Starting subscriber");
+    println!("Starting queryable");
 
     let config = config::get_default();
     let session = zenoh::open(config).await.unwrap();

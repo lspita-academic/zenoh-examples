@@ -5,7 +5,7 @@ use hello_zenoh::KEY;
 
 #[tokio::main]
 async fn main() {
-    println!("Starting publisher");
+    println!("Starting querier");
 
     let config = config::get_default();
     let session = zenoh::open(config).await.unwrap();
