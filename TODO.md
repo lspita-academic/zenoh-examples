@@ -1,5 +1,6 @@
 # TO-DO
 
+- [ ] Figure out why it's not working on same machine
 - [ ] Reference manual sections
   - [ ] Abstractions:
     - [ ] Key expressions and selectors
