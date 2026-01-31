@@ -1,4 +1,4 @@
-name: zenoh-examples/hello-zenoh-pub-sub
+name: zenoh-examples/hello-zenoh
 services:
   pub:
     build:
