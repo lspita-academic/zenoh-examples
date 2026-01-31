@@ -1,0 +1,8 @@
+ARG ZENOH_VERSION=1.7.2
+ARG ZENOH_IMAGE=eclipse/zenoh:${ZENOH_VERSION}
+
+FROM ${ZENOH_IMAGE} as zenoh
+ARG CONFIG_FILE=zenoh_config.json5
+WORKDIR /root/.zenoh
+COPY ${CONFIG_FILE} config.json5
+CMD [ "zenohd", "--config", "config.json5" ]

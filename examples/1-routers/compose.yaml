@@ -1,4 +1,4 @@
-name: zenoh-examples/hello-zenoh
+name: zenoh-examples/routers
 
 x-rust-crate-bin-service: &rust-crate-bin-service
   build: &rust-crate-bin-service-build
@@ -6,8 +6,13 @@ x-rust-crate-bin-service: &rust-crate-bin-service
     dockerfile: containers/rust-crate-bin/Containerfile
     args: &rust-crate-bin-service-build-args
       CRATE_PATH: examples/0-hello-zenoh
-  deploy:
-    replicas: 0
+
+x-zenoh-router-service: &zenoh-router-service
+  build: &zenoh-router-service-build
+    context: ../..
+    dockerfile: containers/zenoh-router/Containerfile
+    args: &zenoh-router-service-build-args
+      CONFIG_FILE: containers/zenoh-router/zenoh_config.json5
 
 services:
   pub:
@@ -26,18 +31,11 @@ services:
         <<: *rust-crate-bin-service-build-args
         BIN_NAME: sub
 
-  queryable:
-    <<: *rust-crate-bin-service
+  router:
+    <<: *zenoh-router-service
     build:
-      <<: *rust-crate-bin-service-build
+      <<: *zenoh-router-service-build
       args:
-        <<: *rust-crate-bin-service-build-args
-        BIN_NAME: queryable
+        <<: *zenoh-router-service-build-args
 
-  querier:
-    <<: *rust-crate-bin-service
-    build:
-      <<: *rust-crate-bin-service-build
-      args:
-        <<: *rust-crate-bin-service-build-args
-        BIN_NAME: querier
+# TODO: networks and rest api access

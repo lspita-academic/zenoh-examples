@@ -1853,6 +1853,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "routers"
+version = "0.1.0"
+dependencies = [
+ "tokio",
+ "utils",
+ "zenoh",
+]
+
+[[package]]
 name = "rsa"
 version = "0.9.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
