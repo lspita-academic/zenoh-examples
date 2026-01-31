@@ -4,6 +4,5 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-config.workspace = true
 tokio.workspace = true
 zenoh.workspace = true

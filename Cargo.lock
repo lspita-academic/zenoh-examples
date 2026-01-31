@@ -794,7 +794,6 @@ dependencies = [
 name = "hello-zenoh"
 version = "0.1.0"
 dependencies = [
- "config",
  "tokio",
  "zenoh",
 ]

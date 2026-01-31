@@ -1,12 +1,13 @@
 use std::time::Duration;
 
 use hello_zenoh::KEY_QUERY_REPLY;
+use zenoh::Config;
 
 #[tokio::main]
 async fn main() {
     println!("Starting queryable");
 
-    let config = config::get_default();
+    let config = Config::default();
     let session = zenoh::open(config).await.unwrap();
     println!("Session opened successfully");
 
