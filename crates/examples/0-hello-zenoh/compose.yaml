@@ -1,41 +1,43 @@
 name: zenoh-examples/hello-zenoh
+
+x-service: &service
+  build: &service-build
+    context: ../../..
+    dockerfile: containers/rust-crate-bin/Containerfile
+    args: &service-build-args
+      CRATE_PATH: crates/examples/0-hello-zenoh
+  deploy:
+    replicas: 0
+
 services:
   pub:
+    <<: *service
     build:
-      context: ../..
-      dockerfile: containers/rust_crate_bin.containerfile
+      <<: *service-build
       args:
-        CRATE_NAME: hello-zenoh
+        <<: *service-build-args
         BIN_NAME: pub
-    deploy:
-      replicas: ${HELLO_ZENOH_PUB_REPLICAS:-0}
 
   sub:
+    <<: *service
     build:
-      context: ../..
-      dockerfile: containers/rust_crate_bin.containerfile
+      <<: *service-build
       args:
-        CRATE_NAME: hello-zenoh
+        <<: *service-build-args
         BIN_NAME: sub
-    deploy:
-      replicas: ${HELLO_ZENOH_SUB_REPLICAS:-0}
 
   queryable:
+    <<: *service
     build:
-      context: ../..
-      dockerfile: containers/rust_crate_bin.containerfile
+      <<: *service-build
       args:
-        CRATE_NAME: hello-zenoh
+        <<: *service-build-args
         BIN_NAME: queryable
-    deploy:
-      replicas: ${HELLO_ZENOH_QUERYABLE_REPLICAS:-0}
 
   querier:
+    <<: *service
     build:
-      context: ../..
-      dockerfile: containers/rust_crate_bin.containerfile
+      <<: *service-build
       args:
-        CRATE_NAME: hello-zenoh
+        <<: *service-build-args
         BIN_NAME: querier
-    deploy:
-      replicas: ${HELLO_ZENOH_QUERIER_REPLICAS:-0}

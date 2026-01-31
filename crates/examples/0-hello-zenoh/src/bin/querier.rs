@@ -1,7 +1,7 @@
 use std::time::Duration;
 use tokio::time;
 
-use hello_zenoh::KEY;
+use hello_zenoh::KEY_QUERY_REPLY;
 
 #[tokio::main]
 async fn main() {
@@ -15,8 +15,8 @@ async fn main() {
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
 
-    let querier = session.declare_querier(KEY).await.unwrap();
-    println!("Querier for {} created successfully", KEY);
+    let querier = session.declare_querier(KEY_QUERY_REPLY).await.unwrap();
+    println!("Querier for {} created successfully", KEY_QUERY_REPLY);
 
     let wait_duration = Duration::from_secs(2);
     println!(

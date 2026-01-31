@@ -30,15 +30,9 @@ See: [zenoh query/reply rust api example](https://docs.rs/zenoh/latest/zenoh/ind
 
 ### Docker compose (Suggested)
 
-Select manually how many replicas of each service to start with the `--scale` flag or its corresponding env variable:
-
-- pub: `HELLO_ZENOH_PUB_REPLICAS`
-- sub: `HELLO_ZENOH_SUB_REPLICAS`
-- queryable: `HELLO_ZENOH_QUERYABLE_REPLICAS`
-- querier: `HELLO_ZENOH_QUERIER_REPLICAS`
-
 ```sh
 # add --build to ensure rebuilding on change
+# use --scale to select how many replicas of each service to start (default 0)
 
 docker compose up --scale pub=1 --scale sub=1
 # or

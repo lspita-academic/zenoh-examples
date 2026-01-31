@@ -1,7 +1,7 @@
 use std::time::Duration;
 use tokio::time;
 
-use hello_zenoh::KEY;
+use hello_zenoh::KEY_PUB_SUB;
 
 #[tokio::main]
 async fn main() {
@@ -15,13 +15,13 @@ async fn main() {
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
 
-    let publisher = session.declare_publisher(KEY).await.unwrap();
-    println!("Publisher for {} created successfully", KEY);
+    let publisher = session.declare_publisher(KEY_PUB_SUB).await.unwrap();
+    println!("Publisher for {} created successfully", KEY_PUB_SUB);
 
     println!("Starting publishing");
     for i in 0..10 {
         let buffer = format!("HELLO#{}", i);
-        println!("Publishing {} at {}", buffer, KEY);
+        println!("Publishing {} at {}", buffer, KEY_PUB_SUB);
         publisher.put(buffer).await.unwrap();
         time::sleep(Duration::from_secs(1)).await;
     }

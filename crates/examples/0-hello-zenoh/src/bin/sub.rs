@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use hello_zenoh::KEY;
+use hello_zenoh::KEY_PUB_SUB;
 
 #[tokio::main]
 async fn main() {
@@ -14,8 +14,8 @@ async fn main() {
     println!("Session ID: {}", info.zid().await);
     println!("Peers: {:?}", info.peers_zid().await.collect::<Vec<_>>());
 
-    let subscriber = session.declare_subscriber(KEY).await.unwrap();
-    println!("Subscriber for {} created successfully", KEY);
+    let subscriber = session.declare_subscriber(KEY_PUB_SUB).await.unwrap();
+    println!("Subscriber for {} created successfully", KEY_PUB_SUB);
 
     println!("Starting read loop");
     let timeout = Duration::from_secs(3);
