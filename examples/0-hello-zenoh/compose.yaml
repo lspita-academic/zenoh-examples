@@ -2,10 +2,10 @@ name: zenoh-examples/hello-zenoh
 
 x-service: &service
   build: &service-build
-    context: ../../..
+    context: ../..
     dockerfile: containers/rust-crate-bin/Containerfile
     args: &service-build-args
-      CRATE_PATH: crates/examples/0-hello-zenoh
+      CRATE_PATH: examples/0-hello-zenoh
   deploy:
     replicas: 0
 
