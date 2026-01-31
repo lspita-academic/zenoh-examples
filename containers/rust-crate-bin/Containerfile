@@ -18,14 +18,16 @@ COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
 FROM rust AS builder
+ARG CRATE_PATH
+ARG BIN_NAME
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --recipe-path recipe.json
 COPY . .
-ARG CRATE_PATH
 WORKDIR ${CRATE_PATH}
-RUN cargo build --bins
+RUN --mount=type=cache,target=/app/target \
+    cargo build --bins && \
+    cp /app/target/debug/${BIN_NAME} /tmp/entrypoint
 
 FROM ${RUNTIME_IMAGE} AS runtime
-ARG BIN_NAME
-COPY --from=builder /app/target/debug/${BIN_NAME} /usr/local/bin/entrypoint
+COPY --from=builder /tmp/entrypoint /usr/local/bin/entrypoint
 ENTRYPOINT [ "/usr/local/bin/entrypoint" ]
