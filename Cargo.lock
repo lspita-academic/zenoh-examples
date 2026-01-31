@@ -1084,15 +1084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "key-expressions"
-version = "0.1.0"
-dependencies = [
- "tokio",
- "utils",
- "zenoh",
-]
-
-[[package]]
 name = "keyed-set"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

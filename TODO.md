@@ -2,8 +2,8 @@
 
 - [ ] Figure out why it's not working on same machine
 - [ ] Reference manual sections
-  - [ ] Abstractions:
-    - [ ] Key expressions and selectors
+  - [x] Abstractions:
+    - [x] Key expressions and selectors
   - [ ] Advanced network
     - [ ] Routers
     - [ ] Clients

@@ -66,3 +66,9 @@ When applications run on the same host, zenoh optimized inter process communicat
 
 See: [zenoh deployment modes](https://zenoh.io/docs/getting-started/deployment/)
 See: [zenoh ultra low-latency](https://zenoh.io/blog/2023-10-03-zenoh-dragonite/#support-for-ultra-low-latency)
+
+### Key expressions
+
+A key expression builder could be implemented to have a more strict construction instead of relying on simple strings.
+
+See: [zenoh key expressions language](https://github.com/eclipse-zenoh/roadmap/blob/main/rfcs/ALL/Key%20Expressions.md).
