@@ -1,4 +1,4 @@
-name: zenoh-examples/hello-zenoh
+name: zenoh-examples-hello-zenoh
 
 x-service: &service
   build: &service-build
