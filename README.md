@@ -15,5 +15,5 @@ to increase the scale of services at will.
 
 ## Structure
 
-- [examples](./crates/examples/): all example crates
-- [common](./crates/common/): common crates used by the examples
+- [examples](./examples/): all example crates
+- [crates](./crates): library crates used by the examples
