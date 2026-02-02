@@ -1,3 +1,5 @@
+# This image needs to be built with the workspace root as the build context.
+
 ARG RUST_VERSION=1.92.0
 ARG DISTRO_NAME=alpine
 ARG DISTRO_VERSION=3.23

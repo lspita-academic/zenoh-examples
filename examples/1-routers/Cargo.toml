@@ -1,0 +1,9 @@
+[package]
+name = "routers"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+tokio.workspace = true
+utils.workspace = true
+zenoh.workspace = true

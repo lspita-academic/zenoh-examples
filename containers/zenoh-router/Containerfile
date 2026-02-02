@@ -1,0 +1,8 @@
+ARG ZENOH_VERSION=1.7.2
+ARG ZENOH_IMAGE=eclipse/zenoh:${ZENOH_VERSION}
+
+FROM ${ZENOH_IMAGE} AS zenoh
+ARG CONFIG_FILE
+WORKDIR /root/.zenoh
+COPY ${CONFIG_FILE} config.json5
+ENTRYPOINT [ "/entrypoint.sh", "--config", "config.json5" ]

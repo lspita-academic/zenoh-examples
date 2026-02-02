@@ -1,0 +1,9 @@
+// keys reference: https://github.com/eclipse-zenoh/zenoh/blob/1.7.2/DEFAULT_CONFIG.json5
+{
+  // Optional: enable REST API
+  "plugins": {
+    "rest": {
+      "http_port": 3000,
+    },
+  },
+}

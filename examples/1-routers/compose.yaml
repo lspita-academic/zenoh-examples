@@ -1,0 +1,67 @@
+name: zenoh-examples-routers
+
+x-rust-crate-bin-service: &rust-crate-bin-service
+  build: &rust-crate-bin-service-build
+    context: ../..
+    dockerfile: containers/rust-crate-bin/Containerfile
+    args: &rust-crate-bin-service-build-args
+      CRATE_PATH: examples/1-routers
+
+x-zenoh-router-service: &zenoh-router-service
+  build: &zenoh-router-service-build
+    context: .
+    dockerfile: ../../containers/zenoh-router/Containerfile
+    args: &zenoh-router-service-build-args
+      CONFIG_FILE: router_config.json5
+
+services:
+  pub:
+    <<: *rust-crate-bin-service
+    build:
+      <<: *rust-crate-bin-service-build
+      args:
+        <<: *rust-crate-bin-service-build-args
+        BIN_NAME: pub
+    networks:
+      - network-pub
+
+  sub:
+    <<: *rust-crate-bin-service
+    build:
+      <<: *rust-crate-bin-service-build
+      args:
+        <<: *rust-crate-bin-service-build-args
+        BIN_NAME: sub
+    networks:
+      - network-sub
+
+  router-pub:
+    <<: *zenoh-router-service
+    build:
+      <<: *zenoh-router-service-build
+      args:
+        <<: *zenoh-router-service-build-args
+    networks:
+      - network-pub
+      - network-routers
+    command: ["--connect", "tcp/router-sub:7447"]
+    ports:
+      - 3000:3000 # expose REST API
+
+  router-sub:
+    <<: *zenoh-router-service
+    build:
+      <<: *zenoh-router-service-build
+      args:
+        <<: *zenoh-router-service-build-args
+    networks:
+      - network-sub
+      - network-routers
+    command: ["--connect", "tcp/router-pub:7447"]
+    ports:
+      - 3001:3000 # expose REST API
+
+networks:
+  network-sub:
+  network-pub:
+  network-routers:
