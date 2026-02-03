@@ -32,7 +32,7 @@ See: [zenoh query/reply rust api example](https://docs.rs/zenoh/latest/zenoh/ind
 
 ```sh
 # add --build to ensure rebuilding on change
-# use --scale to select how many replicas of each service to start (default 0)
+# use --scale to select how many replicas of each service to start (default: 0)
 
 docker compose up --scale pub=1 --scale sub=1
 # or
