@@ -7,6 +7,11 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # https://github.com/mirrexagon/nixpkgs-esp-dev
+    esp-idf = {
+      url = "github:mirrexagon/nixpkgs-esp-dev";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -14,6 +19,7 @@
       nixpkgs,
       flake-utils,
       rust-overlay,
+      esp-idf,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -23,19 +29,16 @@
           inherit system;
           overlays = [
             (import rust-overlay)
+            esp-idf.overlays.default
             (_: prev: {
-              # https://docs.espressif.com/projects/rust/book/getting-started/toolchain.html#risc-v-devices
-              rustToolchain = prev.rust-bin.stable.latest.default.override {
-                extensions = [
-                  "rust-src"
-                  "rust-analyzer"
-                ];
-                targets = [
-                  "riscv32imc-unknown-none-elf" # For ESP32-C2 and ESP32-C3
-                ];
-              };
+              rustToolchain = prev.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
             })
           ];
+          config = {
+            permittedInsecurePackages = [
+              "python3.13-ecdsa-0.19.1"
+            ];
+          };
         };
       in
       {
@@ -52,17 +55,23 @@
               # toml
               tombi
               # esp32
-              esp-generate
-              espflash
-              probe-rs-tools
+              esp-idf-full
+              libz
+              libclang
+              openssl
             ];
             shellHook = ''
               set -a
               source .env 2> /dev/null
-              PATH="$(realpath ./scripts/):$PATH"
+              LD_LIBRARY_PATH="${
+                lib.makeLibraryPath [
+                  libz
+                  libclang
+                  openssl
+                  stdenv.cc.cc
+                ]
+              }:$LD_LIBRARY_PATH"
               set +a
-
-              chmod u+x ./scripts/*
             '';
           };
       }

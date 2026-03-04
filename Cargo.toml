@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["crates/*", "esp32/*", "examples/*"]
-exclude = ["esp32/.cargo", "esp32/.vscode", "esp32/.zed"]
+members = ["crates/*", "examples/*"]
+exclude = ["examples/0-hello-zenoh", "examples/1-routers"]
 
 [workspace.package]
 version = "0.1.0"
@@ -9,23 +9,15 @@ edition = "2024"
 rust-version = "1.93"
 
 [workspace.dependencies]
-critical-section = "1.2.0"
-defmt = "1.0.1"
-esp-bootloader-esp-idf = { version = "0.4.0", features = ["defmt", "esp32c3"] }
-esp-hal = { version = "~1.0", features = ["defmt", "esp32c3"] }
-panic-rtt-target = { version = "0.2.0", features = ["defmt"] }
-rstest = "0.26.1"
-rtt-target = { version = "0.6.2", features = ["defmt"] }
+esp-idf-svc = "0.51"
+log = "0.4"
 tokio = { version = "1.48.0", features = ["full"] }
 utils = { path = "crates/utils" }
 zenoh = "1.7.2"
 
-[profile.esp32]
-inherits = "release"
+[profile.dev]
+opt-level = "z"
+debug = true  # Symbols are nice, and they don't increase the size on Flash
+
+[profile.release]
 opt-level = "s"
-debug = 2
-debug-assertions = false
-overflow-checks = false
-lto = "fat"
-incremental = false
-codegen-units = 1  # LLVM can perform better optimizations using a single thread
