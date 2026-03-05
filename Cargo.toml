@@ -1,7 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["crates/*", "examples/*"]
-exclude = ["examples/0-hello-zenoh", "examples/1-routers"]
+members = ["examples/*"]
+# exclude = ["examples/0-hello-zenoh", "examples/1-routers"]
 
 [workspace.package]
 version = "0.1.0"
@@ -11,9 +11,9 @@ rust-version = "1.93"
 [workspace.dependencies]
 esp-idf-svc = "0.51"
 log = "0.4"
-tokio = { version = "1.48.0", features = ["full"] }
-utils = { path = "crates/utils" }
-zenoh = "1.7.2"
+# tokio = { version = "1.48.0", features = ["full"] }
+# utils = { path = "crates/utils" }
+# zenoh = "1.7.2"
 
 [profile.dev]
 opt-level = "z"

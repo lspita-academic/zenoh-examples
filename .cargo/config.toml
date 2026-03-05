@@ -3,7 +3,8 @@ target = "riscv32imc-esp-espidf"
 
 [target.riscv32imc-esp-espidf]
 linker = "ldproxy"
-runner = "probe-rs run --chip=esp32c3 --preverify --always-print-stacktrace --no-location --catch-hardfault"
+runner = "espflash flash --monitor"
+# runner = "probe-rs run --chip=esp32c3 --preverify --always-print-stacktrace --no-location --catch-hardfault"
 rustflags = ["--cfg", "espidf_time64"]
 
 [unstable]
@@ -13,5 +14,5 @@ build-std = ["std", "panic_abort"]
 MCU = "esp32c3"
 # Note: this variable is not used by the pio builder (`cargo build --features pio`)
 ESP_IDF_VERSION = "v5.3.3"
-CC_riscv32imc_esp_espidf = "riscv32-esp-elf-gcc"
-CFLAGS_riscv32imc_esp_espidf = "-DOPENSSL_32_BIT -DOPENSSL_NO_ASM"
+# CC_riscv32imc_esp_espidf = "riscv32-esp-elf-gcc"
+# CFLAGS_riscv32imc_esp_espidf = "-DOPENSSL_32_BIT -DOPENSSL_NO_ASM"
