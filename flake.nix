@@ -48,6 +48,7 @@
               nixfmt
               # rust
               rust-toolchain
+              rust-analyzer
               # toml
               tombi
               # esp32 rust
