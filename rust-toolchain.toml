@@ -1,4 +1,6 @@
 [toolchain]
-channel = "nightly" # cargo build-std requires nightly
-components = ["rust-src", "rust-analyzer"]
+# cargo build-std requires nightly
+# https://doc.rust-lang.org/cargo/reference/unstable.html#unstable-features
+channel = "nightly-2026-01-21"
+components = ["rust-src"]
 targets = ["riscv32imc-unknown-none-elf"]
