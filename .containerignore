@@ -1,12 +1,18 @@
 **/*.md
 .git/
 
+# env provided by compose
+.env
+
 # direnv
 .direnv/
 .envrc
 
 # rust
 /target
+
+# esp
+/.embuild
 
 # nix
 flake.lock
