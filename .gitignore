@@ -8,5 +8,4 @@
 /target
 
 # esp
-/.toolchain
 /.embuild

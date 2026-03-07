@@ -1,3 +1,0 @@
-# custom toolchain channel gives an error
-[files]
-exclude = ["rust-toolchain.toml"]
