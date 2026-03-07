@@ -1,11 +1,12 @@
 # This image needs to be built with the workspace root as the build context.
 
-ARG RUST_VERSION=1.92.0
-ARG DISTRO_NAME=alpine
+ARG RUST_VERSION=1.92.0.0
+ARG CHIP=esp32c3
 ARG DISTRO_VERSION=3.23
+ARG ESP_IDF_VERSION=5.3.3
 
-ARG RUST_IMAGE=rust:${RUST_VERSION}-${DISTRO_NAME}${DISTRO_VERSION}
-ARG RUNTIME_IMAGE=${DISTRO_NAME}:${DISTRO_VERSION}
+ARG RUST_IMAGE=espressif/idf-rust:${CHIP}_${RUST_VERSION}
+ARG RUNTIME_IMAGE=espressif/idf:v${ESP_IDF_VERSION}
 
 FROM ${RUST_IMAGE} AS rust
 RUN cargo install cargo-chef --locked
@@ -20,6 +21,7 @@ COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
 FROM rust AS builder
+ARG CARGO_TARGET_DIR=riscv32imc-esp-espidf
 ARG CRATE_PATH
 ARG BIN_NAME
 COPY --from=planner /app/recipe.json recipe.json
@@ -28,7 +30,7 @@ COPY . .
 WORKDIR ${CRATE_PATH}
 RUN --mount=type=cache,target=/app/target \
     cargo build --bins && \
-    cp /app/target/debug/${BIN_NAME} /tmp/entrypoint
+    cp /app/target/${CARGO_TARGET_DIR}/debug/${BIN_NAME} /tmp/entrypoint
 
 FROM ${RUNTIME_IMAGE} AS runtime
 COPY --from=builder /tmp/entrypoint /usr/local/bin/entrypoint
