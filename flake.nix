@@ -53,13 +53,6 @@
               tombi
               # esp32 rust
               espflash
-              # gcc
-              # cmake
-              # ninja
-              # gnumake
-              # perl
-              # curl
-              # pkg-config
               python3
               ldproxy
               # esp-idf-sys runtime deps
