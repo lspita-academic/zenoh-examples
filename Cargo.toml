@@ -9,11 +9,33 @@ edition = "2024"
 rust-version = "1.93"
 
 [workspace.dependencies]
-esp-idf-svc = "0.51"
+critical-section = { version = "1.1", default-features = false, features = [
+  "std"
+] }
+embassy-executor = { version = "0.7", features = ["arch-std", "executor-thread"] }
+embassy-time = "0.4"
+esp-idf-svc = { version = "0.51", features = [
+  "embassy-sync",
+  "embassy-time-driver"
+] }
 log = "0.4"
 # tokio = { version = "1.48.0", features = ["full"] }
 # utils = { path = "crates/utils" }
-# zenoh = "1.7.2"
+# Disable zenoh features that require the ring library as a dependency, since it does not support the RISC-V architecture
+# https://docs.rs/zenoh/1.7.2/zenoh/#features
+zenoh = { version = "1.7.2", default-features = false, features = [
+  "auth_pubkey",
+  "auth_usrpwd",
+  "transport_compression",
+  "transport_multilink",
+  # "transport_quic", # requires ring
+  # "transport_quic_datagram",  # requires ring
+  "transport_tcp",
+  # "transport_tls",  # requires ring
+  "transport_udp",
+  # "transport_unixsock-stream", # processes pipes not useful, just one peer per esp
+  "transport_ws"
+] }
 
 [profile.dev]
 opt-level = "z"

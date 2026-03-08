@@ -13,5 +13,3 @@ build-std = ["std", "panic_abort"]
 MCU = "esp32c3"
 # Note: this variable is not used by the pio builder (`cargo build --features pio`)
 ESP_IDF_VERSION = "v5.3.3"
-# CC_riscv32imc_esp_espidf = "riscv32-esp-elf-gcc"
-# CFLAGS_riscv32imc_esp_espidf = "-DOPENSSL_32_BIT -DOPENSSL_NO_ASM"
