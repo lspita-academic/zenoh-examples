@@ -23,6 +23,21 @@
           overlays = [ rust-overlay.overlays.default ];
         };
         rust-toolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
+        # esp-clang ships as a pre-built binary linked against libxml2.so.2
+        # (the old v2.x soname). Nix's current libxml2 uses libxml2.so.16.
+        # This package creates a lib directory that has both the real .so.16
+        # and a .so.2 symlink pointing at it, satisfying the dynamic linker.
+        libxml2-2-links = pkgs.runCommand "libxml2-2-links" { } ''
+          mkdir -p $out/lib
+          ln -s "${pkgs.libxml2.out}/lib/libxml2.so" $out/lib/libxml2.so.2
+        '';
+        embuild-libraries = with pkgs; [
+          libxml2.out
+          libxml2-2-links
+          libclang
+          stdenv.cc.cc.lib
+          zlib
+        ];
       in
       {
         devShell =
@@ -35,11 +50,21 @@
               nixfmt
               # rust
               rust-toolchain
+              cargo
+              rust-analyzer
               # toml
               tombi
               # esp32
               espflash
-            ];
+              cargo-generate
+              python3
+              ldproxy
+            ]
+            ++ embuild-libraries;
+
+            env = {
+              LD_LIBRARY_PATH = lib.makeLibraryPath embuild-libraries;
+            };
 
             shellHook = ''
               set -a

@@ -9,3 +9,7 @@
 
 # esp
 /.embuild
+
+# editors
+.vscode/
+.zed/
