@@ -1,11 +1,17 @@
 use embassy_executor::Spawner;
 use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
+use esp_idf_sys::zenoh_pico;
 
 #[embassy_executor::task]
 async fn hello_world() {
     loop {
-        log::info!("Hello, world!");
+        let random_n;
+        unsafe {
+            // Example: call zenoh-pico function
+            random_n = zenoh_pico::z_random_u8();
+        }
+        log::info!("Hello, world: {}", random_n);
         Timer::after_secs(1).await;
     }
 }

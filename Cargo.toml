@@ -7,6 +7,8 @@ resolver = "3"
 
 [[package.metadata.esp-idf-sys.extra_components]]
 component_dirs = ["components/zenoh-pico-wrapper"]
+bindings_header = "components/zenoh-pico-wrapper/zenoh-pico/include/zenoh-pico.h"
+bindings_module = "zenoh_pico"
 
 [[bin]]
 harness = false  # do not use the built-in cargo test harness -> resolve rust-analyzer errors
