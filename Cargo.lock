@@ -1448,18 +1448,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "testesp"
-version = "0.1.0"
-dependencies = [
- "critical-section",
- "embassy-executor",
- "embassy-time",
- "embuild",
- "esp-idf-svc",
- "log",
-]
-
-[[package]]
 name = "thiserror"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1935,6 +1923,19 @@ dependencies = [
  "serde_json",
  "unicode-xid",
  "wasmparser",
+]
+
+[[package]]
+name = "zenoh-examples"
+version = "0.1.0"
+dependencies = [
+ "critical-section",
+ "embassy-executor",
+ "embassy-time",
+ "embuild",
+ "esp-idf-svc",
+ "esp-idf-sys",
+ "log",
 ]
 
 [[package]]

@@ -1,0 +1,4 @@
+[submodule "components/zenoh-pico-wrapper/zenoh-pico"]
+	path = components/zenoh-pico-wrapper/zenoh-pico
+	url = https://github.com/eclipse-zenoh/zenoh-pico.git
+	branch = release/1.7.2
