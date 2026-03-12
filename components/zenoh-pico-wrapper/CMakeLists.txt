@@ -1,18 +1,18 @@
 set(ZENOH_PICO_REPO_DIR "${CMAKE_CURRENT_LIST_DIR}/zenoh-pico")
 
 # mimic the platformio extra_script.py behavior
-file(GLOB_RECURSE ZENOH_PICO_SRCS "${ZENOH_PICO_REPO_DIR}/src/*")
-file(GLOB_RECURSE ZENOH_PICO_TESTS_SRCS "${ZENOH_PICO_REPO_DIR}/tests/*")
-file(GLOB_RECURSE ZENOH_PICO_EXAMPLES_SRCS "${ZENOH_PICO_REPO_DIR}/examples/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_ARDUINO_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/arduino/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_EMSCRIPTEN_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/emscripten/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_FREERTOS_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/freertos/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_RPI_PICO_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/rpi_pico/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_MBED_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/mbed/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_UNIX_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/unix/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_FLIPPER_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/flipper/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_WINDOWS_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/windows/*")
-file(GLOB_RECURSE ZENOH_PICO_SYSTEM_ZEPHYR_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/zephyr/*")
+file(GLOB_RECURSE ZENOH_PICO_SRCS "${ZENOH_PICO_REPO_DIR}/src/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_TESTS_SRCS "${ZENOH_PICO_REPO_DIR}/tests/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_EXAMPLES_SRCS "${ZENOH_PICO_REPO_DIR}/examples/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_ARDUINO_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/arduino/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_EMSCRIPTEN_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/emscripten/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_FREERTOS_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/freertos/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_RPI_PICO_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/rpi_pico/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_MBED_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/mbed/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_UNIX_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/unix/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_FLIPPER_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/flipper/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_WINDOWS_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/windows/*") # cmake-lint: disable=C0301
+file(GLOB_RECURSE ZENOH_PICO_SYSTEM_ZEPHYR_SRCS "${ZENOH_PICO_REPO_DIR}/src/system/zephyr/*") # cmake-lint: disable=C0301
 
 list(REMOVE_ITEM ZENOH_PICO_SRCS
     ${ZENOH_PICO_TESTS_SRCS}
