@@ -2,28 +2,13 @@ mod wifi;
 mod zenoh;
 
 use embassy_executor::Spawner;
-use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
-use static_cell::StaticCell;
-use zenoh::config::{ZenohConfig, ZenohConfigKey};
+use zenoh::config::{ZenohConfigBuilder, ZenohConfigMode};
 
-static ZENOH_CONFIG: StaticCell<ZenohConfig> = StaticCell::new();
-
-#[embassy_executor::task]
-async fn hello_world(zenoh_config: &'static ZenohConfig) {
-    let config_mode = zenoh_config
-        .get(ZenohConfigKey::Mode)
-        .expect("Zenoh config mode key not found")
-        .expect("Zenoh config mode key is not a valid UTF-8 string");
-
-    loop {
-        log::info!("Hello, {}", config_mode);
-        Timer::after_secs(1).await;
-    }
-}
+use crate::zenoh::session::ZenohSession;
 
 #[embassy_executor::main]
-async fn main(spawner: Spawner) {
+async fn main(_spawner: Spawner) {
     esp_idf_svc::sys::link_patches();
     EspLogger::initialize_default();
 
@@ -39,10 +24,11 @@ async fn main(spawner: Spawner) {
         .expect("Error getting IP info");
     log::info!("IP address: {}", ip_info.ip);
 
-    let zenoh_config = ZENOH_CONFIG.init(Default::default());
+    let zenoh_config = ZenohConfigBuilder::default()
+        .mode(ZenohConfigMode::Peer)
+        .build();
 
-    zenoh_config
-        .set(ZenohConfigKey::Mode, "peer")
-        .expect("Failed to set zenoh config to peer mode");
-    let _ = spawner.spawn(hello_world(zenoh_config));
+    log::info!("Zenoh config mode: {:?}", zenoh_config.mode());
+
+    ZenohSession::open(zenoh_config, None);
 }
