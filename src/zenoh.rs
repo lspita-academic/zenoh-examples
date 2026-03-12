@@ -1,6 +1,6 @@
 use std::{ffi::CStr, str::Utf8Error};
 
-use esp_idf_sys::zenoh_pico::{
+use esp_idf_svc::sys::zenoh_pico::{
     Z_CONFIG_MODE_KEY, z_config_default, z_config_drop, z_config_loan, z_config_loan_mut,
     z_config_move, z_owned_config_t, zp_config_get, zp_config_insert,
 };

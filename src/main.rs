@@ -1,13 +1,11 @@
+mod wifi;
+mod zenoh;
+
 use embassy_executor::Spawner;
 use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
 use static_cell::StaticCell;
-
-mod zenoh;
-
-use zenoh::ZenohConfig;
-
-use crate::zenoh::ZenohConfigKey;
+use zenoh::{ZenohConfig, ZenohConfigKey};
 
 static ZENOH_CONFIG: StaticCell<ZenohConfig> = StaticCell::new();
 
@@ -26,12 +24,20 @@ async fn hello_world(zenoh_config: &'static ZenohConfig) {
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
-    // It is necessary to call this function once. Otherwise, some patches to the runtime
-    // implemented by esp-idf-sys might not link properly. See https://github.com/esp-rs/esp-idf-template/issues/71
     esp_idf_svc::sys::link_patches();
-
-    // Bind the log crate to the ESP Logging facilities
     EspLogger::initialize_default();
+
+    let mut wifi = wifi::get_wifi().expect("Unable to initialize wifi");
+    wifi::connect_wifi(&mut wifi)
+        .await
+        .unwrap_or_else(|err| panic!("Wifi connection raised error: {:?}", err));
+
+    let ip_info = wifi
+        .wifi()
+        .sta_netif()
+        .get_ip_info()
+        .expect("Error getting IP info");
+    log::info!("IP address: {}", ip_info.ip);
 
     let zenoh_config = ZENOH_CONFIG.init(Default::default());
 

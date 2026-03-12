@@ -15,16 +15,18 @@ harness = false  # do not use the built-in cargo test harness -> resolve rust-an
 name = "zenoh-examples"
 
 [dependencies]
-critical-section = { version = "1.1", default-features = false, features = [
+critical-section = { version = "1.2", default-features = false, features = [
   "std"
 ] }
-embassy-executor = { version = "0.7", features = ["arch-std", "executor-thread"] }
-embassy-time = { version = "0.4.0" }
-esp-idf-svc = { version = "0.51", features = [
+embassy-executor = { version = "0.9.1", features = [
+  "arch-std",
+  "executor-thread"
+] }
+embassy-time = { version = "0.5.0" }
+esp-idf-svc = { version = "0.52.1", features = [
   "embassy-sync",
   "embassy-time-driver"
 ] }
-esp-idf-sys = "0.36"
 log = "0.4"
 static_cell = "2.1.1"
 
