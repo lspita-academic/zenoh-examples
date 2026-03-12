@@ -32,7 +32,7 @@ async fn main(spawner: Spawner) {
         let ok = zenoh_pico::z_config_default(&mut zenoh_config);
         assert!(ok == 0, "Cannot create default zenoh config");
         let config_mode_ptr = zenoh_pico::zp_config_get(
-            &raw const zenoh_config._val,
+            zenoh_pico::z_config_loan(&zenoh_config),
             zenoh_pico::Z_CONFIG_MODE_KEY as u8,
         );
         if config_mode_ptr == 0x0 as *const u8 {
