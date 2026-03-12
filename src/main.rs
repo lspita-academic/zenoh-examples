@@ -5,7 +5,7 @@ use embassy_executor::Spawner;
 use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
 use static_cell::StaticCell;
-use zenoh::{ZenohConfig, ZenohConfigKey};
+use zenoh::config::{ZenohConfig, ZenohConfigKey};
 
 static ZENOH_CONFIG: StaticCell<ZenohConfig> = StaticCell::new();
 
