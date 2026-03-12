@@ -1,4 +1,4 @@
-use std::ffi::CStr;
+use std::{ffi::CStr, str};
 
 use embassy_executor::Spawner;
 use embassy_time::Timer;
@@ -29,36 +29,27 @@ impl Drop for ZenohConfig {
 }
 
 impl ZenohConfig {
-    pub fn get(&self, key: u32) -> Option<&str> {
-        unsafe {
-            let ptr = zp_config_get(z_config_loan(&self.config), key as u8);
-            if ptr.is_null() {
-                None
-            } else {
-                Some(CStr::from_ptr(ptr).to_str().expect(&format!(
-                    "Zenoh config key {} is not a valid UTF-8 string",
-                    key
-                )))
-            }
+    pub fn get(&self, key: u32) -> Option<Result<&str, str::Utf8Error>> {
+        let value_ptr = unsafe { zp_config_get(z_config_loan(&self.config), key as u8) };
+        if value_ptr.is_null() {
+            None
+        } else {
+            let value_cstr = unsafe { CStr::from_ptr(value_ptr) };
+            Some(value_cstr.to_str())
         }
     }
 
-    pub fn set(&mut self, key: u32, value: &str) -> Result<&str, i8> {
+    pub fn set(&mut self, key: u32, value: &str) -> Result<(), i8> {
+        let value_bytes = [value.as_bytes(), &[0]].concat();
+        let value_cstr = CStr::from_bytes_until_nul(value_bytes.as_slice()).unwrap();
         let result = unsafe {
-            let value_bytes = [value.as_bytes(), &[0]].concat();
-            let value_cstr = CStr::from_bytes_until_nul(value_bytes.as_slice()).unwrap();
             zp_config_insert(
                 z_config_loan_mut(&mut self.config),
                 key as u8,
                 value_cstr.as_ptr(),
             )
         };
-        if result == 0 {
-            let value = self.get(key).unwrap();
-            Ok(value)
-        } else {
-            Err(result)
-        }
+        if result == 0 { Ok(()) } else { Err(result) }
     }
 }
 
@@ -68,7 +59,8 @@ static ZENOH_CONFIG: StaticCell<ZenohConfig> = StaticCell::new();
 async fn hello_world(zenoh_config: &'static ZenohConfig) {
     let config_mode = zenoh_config
         .get(Z_CONFIG_MODE_KEY)
-        .expect("Zenoh config mode key not found");
+        .expect("Zenoh config mode key not found")
+        .expect("Zenoh config mode key is not a valid UTF-8 string");
 
     loop {
         log::info!("Hello, {}", config_mode);
