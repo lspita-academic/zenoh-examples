@@ -6,7 +6,7 @@ use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
 use esp_idf_sys::zenoh_pico::{
     Z_CONFIG_MODE_KEY, z_config_default, z_config_drop, z_config_loan, z_config_move,
-    z_owned_config_t, z_random_u8, zp_config_get,
+    z_owned_config_t, zp_config_get,
 };
 
 #[derive(Debug, Default)]
@@ -28,28 +28,32 @@ impl Drop for ZenohConfig {
     }
 }
 
-unsafe impl Send for ZenohConfig {}
-unsafe impl Sync for ZenohConfig {} // safe because tasks only read after init
+impl ZenohConfig {
+    pub fn get_key(&self, key: u32) -> Option<&str> {
+        unsafe {
+            let ptr = zp_config_get(z_config_loan(&self.config), key as u8);
+            if ptr == 0x0 as *const u8 {
+                None
+            } else {
+                Some(CStr::from_ptr(ptr).to_str().expect(&format!(
+                    "Zenoh config key {} is not a valid UTF-8 string",
+                    key
+                )))
+            }
+        }
+    }
+}
 
 static ZENOH_CONFIG: StaticCell<ZenohConfig> = StaticCell::new();
 
 #[embassy_executor::task]
 async fn hello_world(zenoh_config: &'static ZenohConfig) {
-    let config_mode_ptr =
-        unsafe { zp_config_get(z_config_loan(&zenoh_config.config), Z_CONFIG_MODE_KEY as u8) };
-    if config_mode_ptr == 0x0 as *const u8 {
-        panic!("Config mode not found!")
-    }
-    let config_mode = unsafe { CStr::from_ptr(config_mode_ptr) };
-    log::info!("Config mode: {:?}", config_mode);
+    let config_mode = zenoh_config
+        .get_key(Z_CONFIG_MODE_KEY)
+        .expect("Zenoh config mode key not found");
 
     loop {
-        let random_n;
-        unsafe {
-            // Example: call zenoh-pico function
-            random_n = z_random_u8();
-        }
-        log::info!("Hello, world: {}", random_n);
+        log::info!("Hello, {}", config_mode);
         Timer::after_secs(1).await;
     }
 }
