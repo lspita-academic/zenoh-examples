@@ -1,6 +1,8 @@
 mod wifi;
 mod zenoh;
 
+use std::time::Duration;
+
 use embassy_executor::Spawner;
 use esp_idf_svc::log::EspLogger;
 use zenoh::config::{ZenohConfigBuilder, ZenohConfigMode};
@@ -26,6 +28,7 @@ async fn main(_spawner: Spawner) {
 
     let zenoh_config = ZenohConfigBuilder::default()
         .mode(ZenohConfigMode::Peer)
+        .scouting_timeout(Duration::from_secs(5))
         .build();
 
     log::info!("Zenoh config mode: {:?}", zenoh_config.mode());

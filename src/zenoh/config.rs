@@ -1,8 +1,9 @@
-use std::ffi::CStr;
+use std::{ffi::CStr, time::Duration};
 
 use esp_idf_svc::sys::zenoh_pico::{
-    _z_res_t_Z_OK, Z_CONFIG_MODE_KEY, z_config_default, z_config_drop, z_config_loan,
-    z_config_loan_mut, z_config_move, z_owned_config_t, zp_config_get, zp_config_insert,
+    _z_res_t_Z_OK, Z_CONFIG_MODE_KEY, Z_CONFIG_SCOUTING_TIMEOUT_KEY, z_config_default,
+    z_config_drop, z_config_loan, z_config_loan_mut, z_config_move, z_owned_config_t,
+    zp_config_get, zp_config_insert,
 };
 
 #[derive(Debug)]
@@ -35,12 +36,14 @@ impl TryFrom<&str> for ZenohConfigMode {
 #[derive(Debug)]
 pub enum ZenohConfigKey {
     Mode,
+    ScoutingTimeout,
 }
 
 impl ZenohConfigKey {
     fn z_value(self) -> u8 {
         let key = match self {
             Self::Mode => Z_CONFIG_MODE_KEY,
+            Self::ScoutingTimeout => Z_CONFIG_SCOUTING_TIMEOUT_KEY,
         };
         key as u8
     }
@@ -128,6 +131,14 @@ impl ZenohConfigBuilder {
 
     pub fn mode(self, mode: ZenohConfigMode) -> Self {
         self.set(ZenohConfigKey::Mode, mode.into()).unwrap()
+    }
+
+    pub fn scouting_timeout(self, timeout: Duration) -> Self {
+        self.set(
+            ZenohConfigKey::ScoutingTimeout,
+            &timeout.as_millis().to_string(),
+        )
+        .unwrap()
     }
 
     pub fn build(self) -> ZenohConfig {
