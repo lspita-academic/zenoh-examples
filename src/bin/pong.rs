@@ -20,6 +20,7 @@ async fn pong(zenoh_session: &'static ZenohSession) {
     let publisher = zenoh_session.publisher("pong/value");
     let subscriber = zenoh_session.subscriber("ping/value");
 
+    Timer::after_secs(2).await;
     let mut count = 0;
     loop {
         let pong = count.to_string();

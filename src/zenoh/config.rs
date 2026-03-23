@@ -123,7 +123,6 @@ impl ZenohConfigBuilder {
                 value_cstr.as_ptr(),
             )
         };
-        // TODO: match the result and handle errors. Check _z_res_t enum values.
         if result == _z_res_t_Z_OK as i8 {
             Ok(self)
         } else {

@@ -1,6 +1,5 @@
 use esp_idf_svc::sys::zenoh_pico::{
-    _z_res_t_Z_OK, z_close, z_config_move, z_open, z_open_options_t, z_owned_session_t,
-    z_session_drop, z_session_is_closed, z_session_loan, z_session_loan_mut, z_session_move,
+    _z_res_t_Z_OK, z_close, z_config_move, z_open, z_open_options_t, z_owned_session_t, z_session_drop, z_session_is_closed, z_session_loan, z_session_loan_mut, z_session_move, zp_start_lease_task, zp_start_read_task
 };
 
 use super::{config::ZenohConfig, publisher::ZenohPublisher, subscriber::ZenohSubscriber};
@@ -34,12 +33,16 @@ impl ZenohSession {
             .unwrap_or(std::ptr::null());
 
         let result = unsafe { z_open(&mut z_session, z_config_move(z_config), open_options) };
-        // TODO: match the result and handle errors. Check _z_res_t enum values.
         assert!(
             result == _z_res_t_Z_OK as i8, // crash if no scouts found
             "Cannot open zenoh session: {}",
             result
         );
+        unsafe {
+            // not done automatically, even if it should be because of the default options
+            zp_start_read_task(z_session_loan_mut(&mut z_session), std::ptr::null());
+            zp_start_lease_task(z_session_loan_mut(&mut z_session), std::ptr::null());
+        }
 
         Self::from(z_session)
     }

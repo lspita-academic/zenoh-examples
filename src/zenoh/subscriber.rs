@@ -60,6 +60,7 @@ impl ZenohSubscriber {
         log::info!("Waiting for signal on {}", self.key);
         let value = self.signal.wait().await;
         log::info!("Received {}: {}", self.key, value);
+        self.signal.reset();
         value
     }
 }
