@@ -12,7 +12,11 @@ bindings_module = "zenoh_pico"
 
 [[bin]]
 harness = false  # do not use the built-in cargo test harness -> resolve rust-analyzer errors
-name = "zenoh-examples"
+name = "ping"
+
+[[bin]]
+harness = false  # do not use the built-in cargo test harness -> resolve rust-analyzer errors
+name = "pong"
 
 [dependencies]
 critical-section = { version = "1.2", default-features = false, features = [
@@ -22,6 +26,7 @@ embassy-executor = { version = "0.9.1", features = [
   "arch-std",
   "executor-thread"
 ] }
+embassy-sync = { version = "0.8.0" }
 embassy-time = { version = "0.5.0" }
 esp-idf-svc = { version = "0.52.1", features = [
   "embassy-sync",

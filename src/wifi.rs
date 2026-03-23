@@ -48,6 +48,5 @@ pub async fn connect_wifi<'a>(wifi: &mut AsyncEspWifi<'a>) -> Result<(), EspErro
 
     wifi.wait_netif_up().await?;
     log::info!("Wifi netif up");
-
     Ok(())
 }
