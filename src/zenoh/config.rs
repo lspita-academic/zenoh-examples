@@ -1,9 +1,9 @@
 use std::{ffi::CStr, time::Duration};
 
 use esp_idf_svc::sys::zenoh_pico::{
-    _z_res_t_Z_OK, Z_CONFIG_MODE_KEY, Z_CONFIG_SCOUTING_TIMEOUT_KEY, z_config_default,
-    z_config_drop, z_config_loan, z_config_loan_mut, z_config_move, z_owned_config_t,
-    zp_config_get, zp_config_insert,
+    _z_res_t_Z_OK, z_config_default, z_config_drop, z_config_loan, z_config_loan_mut,
+    z_config_move, z_owned_config_t, zp_config_get, zp_config_insert, Z_CONFIG_LISTEN_KEY,
+    Z_CONFIG_MODE_KEY, Z_CONFIG_SCOUTING_TIMEOUT_KEY,
 };
 
 #[derive(Debug)]
@@ -35,6 +35,7 @@ impl TryFrom<&str> for ZenohConfigMode {
 
 #[derive(Debug)]
 pub enum ZenohConfigKey {
+    Listen,
     Mode,
     ScoutingTimeout,
 }
@@ -42,6 +43,7 @@ pub enum ZenohConfigKey {
 impl ZenohConfigKey {
     fn z_value(self) -> u8 {
         let key = match self {
+            Self::Listen => Z_CONFIG_LISTEN_KEY,
             Self::Mode => Z_CONFIG_MODE_KEY,
             Self::ScoutingTimeout => Z_CONFIG_SCOUTING_TIMEOUT_KEY,
         };
@@ -139,6 +141,10 @@ impl ZenohConfigBuilder {
             &timeout.as_millis().to_string(),
         )
         .unwrap()
+    }
+
+    pub fn listen(self, locator: impl AsRef<str>) -> Self {
+        self.set(ZenohConfigKey::Listen, locator.as_ref()).unwrap()
     }
 
     pub fn build(self) -> ZenohConfig {
