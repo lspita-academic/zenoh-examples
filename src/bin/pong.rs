@@ -17,16 +17,18 @@ static WIFI: StaticCell<AsyncWifi<EspWifi<'static>>> = StaticCell::new();
 #[embassy_executor::task]
 async fn pong(zenoh_session: &'static ZenohSession) {
     log::info!("Starting pong task");
+    let publisher = zenoh_session.publisher("pong/value");
+    let subscriber = zenoh_session.subscriber("ping/value");
+
     let mut count = 0;
     loop {
         let pong = count.to_string();
-        let ping = zenoh_session.get_key("ping/value").await;
+        let ping = subscriber.recv_async().await;
         log::info!("Received ping: {}", ping);
         assert_eq!(ping, pong);
-        Timer::after_secs(1).await;
-        zenoh_session.pub_str("pong/value", &pong);
+        publisher.put(&pong);
         count += 1;
-        Timer::after_secs(1).await;
+        Timer::after_secs(2).await;
     }
 }
 
