@@ -21,15 +21,16 @@ async fn ping(zenoh_session: &'static ZenohSession) {
     let subscriber = zenoh_session.subscriber("pong/value");
 
     Timer::after_secs(2).await;
+    zenoh_session.print_peers_zid();
     let mut count = 0;
     loop {
         let ping = count.to_string();
+        Timer::after_millis(2000).await;
         publisher.put(&ping);
         let pong = subscriber.recv_async().await;
         log::info!("Received pong: {}", pong);
         assert_eq!(ping, pong);
         count += 1;
-        Timer::after_secs(2).await;
     }
 }
 
