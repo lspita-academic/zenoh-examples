@@ -3,3 +3,4 @@
 # https://doc.rust-lang.org/cargo/reference/unstable.html#unstable-features
 channel = "nightly-2026-01-21"
 components = ["rust-src"]
+targets = ["arm-unknown-linux-gnueabihf"]

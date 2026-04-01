@@ -1,32 +1,7 @@
-[build]
-target = "riscv32imc-esp-espidf"
-
-[target.riscv32imc-esp-espidf]
-linker = "ldproxy"
-runner = "espflash flash --monitor"
-rustflags = ["--cfg", "espidf_time64"]
-
-[target.arm-unknown-linux-gnueabihf]
-linker = "armv6l-unknown-linux-gnueabihf-gcc"
-# https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835
-rustflags = [
-  "-C",
-  "target-cpu=arm1176jzf-s",
-  "-C",
-  "link-args=-Wl,-dynamic-linker,/lib/ld-linux-armhf.so.3",  # use system linker
-]
-
-[unstable]
-build-std = ["std", "panic_abort"]
-
 [env]
-MCU = "esp32c3"
-# Note: this variable is not used by the pio builder (`cargo build --features pio`)
-ESP_IDF_VERSION = "v5.3.3"
 # Uncomment this if you have moved the target dir by setting CARGO_TARGET_DIR or similar.
 # Required for now due to embuild limitations.
 CARGO_WORKSPACE_DIR = { value = "", relative = true }
-CC_arm-unknown-linux-gnueabihf = "armv6l-unknown-linux-gnueabihf-gcc"
 ZENOH_PICO_FRAG_MAX_SIZE = "4096"
 ZENOH_PICO_BATCH_UNICAST_SIZE = "2048"
 ZENOH_PICO_BATCH_MULTICAST_SIZE = "2048"
