@@ -52,8 +52,9 @@ async fn main(spawner: Spawner) {
 
     let zenoh_config = ZenohConfigBuilder::default()
         .mode(ZenohConfigMode::Peer)
-        .scouting_timeout(Duration::from_secs(5))
-        .listen(format!("udp/224.0.0.224:7447#iface={}", if_name))
+        .scouting_timeout(Duration::from_secs(30))
+        .multicast_locator(&format!("udp/224.0.0.224:7446#iface={}", if_name))
+        .listen(&format!("udp/224.0.0.224:7447#iface={}", if_name))
         .build();
 
     log::info!("Zenoh config mode: {:?}", zenoh_config.mode());

@@ -1,5 +1,9 @@
 set(ZENOH_PICO_REPO_DIR "${CMAKE_CURRENT_LIST_DIR}/zenoh-pico")
 
+set(FRAG_MAX_SIZE $ENV{ZENOH_PICO_FRAG_MAX_SIZE})
+set(BATCH_UNICAST_SIZE $ENV{ZENOH_PICO_BATCH_UNICAST_SIZE})
+set(BATCH_MULTICAST_SIZE $ENV{ZENOH_PICO_BATCH_MULTICAST_SIZE})
+
 # mimic the platformio extra_script.py behavior
 file(GLOB_RECURSE ZENOH_PICO_SRCS "${ZENOH_PICO_REPO_DIR}/src/*") # cmake-lint: disable=C0301
 file(GLOB_RECURSE ZENOH_PICO_TESTS_SRCS "${ZENOH_PICO_REPO_DIR}/tests/*") # cmake-lint: disable=C0301
@@ -34,4 +38,11 @@ idf_component_register(
     REQUIRES esp_netif lwip freertos driver
 )
 
-target_compile_definitions(${COMPONENT_LIB} PUBLIC ZENOH_ESPIDF)
+target_compile_definitions(
+    ${COMPONENT_LIB}
+    PUBLIC
+    ZENOH_ESPIDF
+    FRAG_MAX_SIZE=${FRAG_MAX_SIZE}
+    BATCH_UNICAST_SIZE=${BATCH_UNICAST_SIZE}
+    BATCH_MULTICAST_SIZE=${BATCH_MULTICAST_SIZE}
+)
