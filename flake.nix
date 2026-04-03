@@ -61,14 +61,8 @@
               espflash
               python313 # there is a warning in the logs about 3.14
               ldproxy
-              # libxml2-16
-              # embuild-libraries
-              # libxml2-2-links
-              # zlib
-              # libclang
               # rpi zero
               rpi-pkgs.stdenv.cc
-              # rpi-linker
             ];
 
             env = {
