@@ -1,7 +1,4 @@
 [env]
-# Uncomment this if you have moved the target dir by setting CARGO_TARGET_DIR or similar.
-# Required for now due to embuild limitations.
-CARGO_WORKSPACE_DIR = { value = "", relative = true }
 ZENOH_PICO_FRAG_MAX_SIZE = "4096"
 ZENOH_PICO_BATCH_UNICAST_SIZE = "2048"
 ZENOH_PICO_BATCH_MULTICAST_SIZE = "2048"

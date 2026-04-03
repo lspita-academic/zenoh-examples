@@ -5,11 +5,4 @@
 .envrc
 
 # rust
-/target
-
-# esp
-/.embuild
-
-# editors
-.vscode/
-.zed/
+/*/target/

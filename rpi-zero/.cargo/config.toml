@@ -1,0 +1,15 @@
+[build]
+target = "arm-unknown-linux-gnueabihf"
+
+[target.arm-unknown-linux-gnueabihf]
+linker = "armv6l-unknown-linux-gnueabihf-cc"
+# https://www.raspberrypi.com/documentation/computers/processors.html#bcm2835
+rustflags = [
+  "-C",
+  "target-cpu=arm1176jzf-s",
+  "-C",
+  "link-args=-Wl,-dynamic-linker,/lib/ld-linux-armhf.so.3",  # use raspberry linker
+]
+
+[env]
+CC_arm-unknown-linux-gnueabihf = "armv6l-unknown-linux-gnueabihf-cc"
