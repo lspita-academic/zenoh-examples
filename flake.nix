@@ -42,21 +42,6 @@
           zlib
           libclang
         ];
-        rpi-libraries = with rpi-pkgs; [
-          # stdenv.cc.cc.lib
-        ];
-        rpi-target-prefix = rpi-pkgs.stdenv.cc.targetPrefix;
-        rpi-linker = pkgs.writeShellScriptBin "armv6l-unknown-linux-gnueabihf-cc-wrapper" ''
-          # mkShell populates NIX_LDFLAGS with -L paths for every buildInput lib,
-          # including host (x86_64) gcc-lib. The cc-wrapper forwards these to the
-          # linker, which then finds x86_64 libgcc_s.so.1 and rejects it for ARM.
-          # Unsetting these forces the cross-gcc to rely solely on its own built-in
-          # sysroot paths, which correctly point to the ARM target libs.
-          unset NIX_LDFLAGS
-          unset NIX_LDFLAGS_FOR_TARGET
-          unset LD_LIBRARY_PATH
-          exec ${rpi-pkgs.stdenv.cc}/bin/${rpi-target-prefix}cc "$@"
-        '';
       in
       {
         devShell =
@@ -76,17 +61,18 @@
               espflash
               python313 # there is a warning in the logs about 3.14
               ldproxy
-              libxml2-16
-              embuild-libraries
+              # libxml2-16
+              # embuild-libraries
+              # libxml2-2-links
+              # zlib
+              # libclang
               # rpi zero
               rpi-pkgs.stdenv.cc
-              rpi-libraries
-              rpi-linker
+              # rpi-linker
             ];
 
             env = {
-              LD_LIBRARY_PATH = lib.makeLibraryPath (embuild-libraries ++ rpi-libraries);
-              CARGO_TARGET_ARM_UNKNOWN_LINUX_GNUEABIHF_LINKER = "${rpi-linker}/bin/${rpi-target-prefix}cc-wrapper";
+              LD_LIBRARY_PATH = lib.makeLibraryPath embuild-libraries;
             };
 
             shellHook = ''

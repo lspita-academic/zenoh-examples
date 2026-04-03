@@ -1,4 +1,4 @@
-# Notes on zenoh
+# Notes
 
 ## Peers seem to not see each other
 
@@ -13,7 +13,7 @@ sudo iptables -I INPUT -p tcp --dport 7446 -j ACCEPT
 sudo iptables -I INPUT -p tcp --dport 7447 -j ACCEPT
 ```
 
-# Normal zenoh and zenoh-pico iteropability
+## Normal zenoh and zenoh-pico iteropability
 
 https://github.com/eclipse-zenoh/zenoh-pico?tab=readme-ov-file#error-when-opening-a-session-on-a-microcontroller
 
