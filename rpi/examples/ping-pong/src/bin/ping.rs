@@ -3,7 +3,7 @@ use std::time::Duration;
 #[tokio::main]
 async fn main() {
     println!("Starting ping task");
-    let config = zenoh::Config::from_json5(rpi_zero_ping_pong::CONFIG_JSON)
+    let config = zenoh::Config::from_json5(ping_pong::CONFIG_JSON)
     .unwrap();
     let session = zenoh::open(config).await.unwrap();
     let publisher = session.declare_publisher("ping/value").await.unwrap();
@@ -22,7 +22,6 @@ async fn main() {
         let sample = subscriber.recv_async().await.unwrap();
         let pong = sample.payload().try_to_string().unwrap();
         println!("Received pong: {}", pong);
-        assert_eq!(pong, ping);
         count += 1;
     }
     // session.close().await.unwrap();

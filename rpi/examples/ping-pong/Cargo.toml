@@ -1,16 +1,14 @@
 [package]
-name = "rpi-zero-ping-pong"
+name = "ping-pong"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 
 [[bin]]
-name = "rpi-zero-ping"
-path = "src/bin/ping.rs"
+name = "ping"
 
 [[bin]]
-name = "rpi-zero-pong"
-path = "src/bin/pong.rs"
+name = "pong"
 
 [dependencies]
 tokio.workspace = true

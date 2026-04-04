@@ -36,12 +36,6 @@
           mkdir -p $out/lib
           ln -s "${libxml2-16}/lib/libxml2.so" $out/lib/libxml2.so.2
         '';
-        embuild-libraries = with pkgs; [
-          stdenv.cc.cc.lib
-          libxml2-2-links
-          zlib
-          libclang
-        ];
       in
       {
         devShell =
@@ -68,7 +62,13 @@
             ];
 
             env = {
-              LD_LIBRARY_PATH = lib.makeLibraryPath embuild-libraries;
+              LD_LIBRARY_PATH = lib.makeLibraryPath [
+                # esp32
+                stdenv.cc.cc.lib
+                libxml2-2-links
+                zlib
+                libclang # also used by bindgen
+              ];
             };
 
             shellHook = ''

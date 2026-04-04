@@ -1,18 +1,16 @@
 [package]
-name = "esp32-ping-pong"
+name = "ping-pong"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 
 [[bin]]
 harness = false  # do not use the built-in cargo test harness -> resolve rust-analyzer errors
-name = "esp32-ping"
-path = "src/bin/ping.rs"
+name = "ping"
 
 [[bin]]
 harness = false  # do not use the built-in cargo test harness -> resolve rust-analyzer errors
-name = "esp32-pong"
-path = "src/bin/pong.rs"
+name = "pong"
 
 [dependencies]
 critical-section.workspace = true
@@ -22,6 +20,7 @@ embassy-time.workspace = true
 esp-idf-svc.workspace = true
 log.workspace = true
 static_cell.workspace = true
+zenoh-pico.workspace = true
 
 [build-dependencies]
 embuild.workspace = true

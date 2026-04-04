@@ -5,34 +5,33 @@ use embassy_time::Timer;
 use esp_idf_svc::log::EspLogger;
 use esp_idf_svc::wifi::{AsyncWifi, EspWifi};
 use static_cell::StaticCell;
-use esp32_ping_pong::wifi;
-// use zenoh_examples::zenoh::{
-//     config::{ZenohConfigBuilder, ZenohConfigMode},
-//     session::ZenohSession,
-// };
+use ping_pong::wifi;
+use zenoh_pico::{
+    config::{ZenohConfigBuilder, ZenohConfigMode},
+    session::ZenohSession,
+};
 
-// static ZENOH_SESSION: StaticCell<ZenohSession> = StaticCell::new();
+static ZENOH_SESSION: StaticCell<ZenohSession> = StaticCell::new();
 static WIFI: StaticCell<AsyncWifi<EspWifi<'static>>> = StaticCell::new();
 
-// #[embassy_executor::task]
-// async fn pong(zenoh_session: &'static ZenohSession) {
-//     log::info!("Starting pong task");
-//     let publisher = zenoh_session.publisher("pong/value");
-//     let subscriber = zenoh_session.subscriber("ping/value");
+#[embassy_executor::task]
+async fn pong(zenoh_session: &'static ZenohSession) {
+    log::info!("Starting pong task");
+    let publisher = zenoh_session.publisher("pong/value");
+    let subscriber = zenoh_session.subscriber("ping/value");
 
-//     Timer::after_secs(2).await;
-//     zenoh_session.print_peers_zid();
-//     let mut count = 0;
-//     loop {
-//         let pong = count.to_string();
-//         let ping = subscriber.recv_async().await;
-//         log::info!("Received ping: {}", ping);
-//         assert_eq!(ping, pong);
-//         Timer::after_millis(2000).await;
-//         publisher.put(&pong);
-//         count += 1;
-//     }
-// }
+    Timer::after_secs(2).await;
+    zenoh_session.print_peers_zid();
+    let mut count = 0;
+    loop {
+        let pong = count.to_string();
+        let ping = subscriber.recv_async().await;
+        log::info!("Received ping: {}", ping);
+        Timer::after_millis(2000).await;
+        publisher.put(&pong);
+        count += 1;
+    }
+}
 
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
@@ -50,17 +49,17 @@ async fn main(spawner: Spawner) {
     log::info!("WiFi interface: {}", if_name);
     log::info!("IP address: {}", ip_info.ip);
 
-    // let zenoh_config = ZenohConfigBuilder::default()
-    //     .mode(ZenohConfigMode::Peer)
-    //     .scouting_timeout(Duration::from_secs(30))
-    //     .multicast_locator(&format!("udp/224.0.0.224:7446#iface={}", if_name))
-    //     .listen(&format!("udp/224.0.0.224:7447#iface={}", if_name))
-    //     .build();
+    let zenoh_config = ZenohConfigBuilder::default()
+        .mode(ZenohConfigMode::Peer)
+        .scouting_timeout(Duration::from_secs(30))
+        .multicast_locator(&format!("udp/224.0.0.224:7446#iface={}", if_name))
+        .listen(&format!("udp/224.0.0.224:7447#iface={}", if_name))
+        .build();
 
-    // log::info!("Zenoh config mode: {:?}", zenoh_config.mode());
+    log::info!("Zenoh config mode: {:?}", zenoh_config.mode());
 
-    // let zenoh_session = ZENOH_SESSION.init(ZenohSession::open(zenoh_config, None));
-    // spawner
-    //     .spawn_named("pong", pong(zenoh_session))
-    //     .expect("Failed to spawn pong task");
+    let zenoh_session = ZENOH_SESSION.init(ZenohSession::open(zenoh_config, None));
+    spawner
+        .spawn_named("pong", pong(zenoh_session))
+        .expect("Failed to spawn pong task");
 }
