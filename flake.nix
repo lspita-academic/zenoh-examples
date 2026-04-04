@@ -63,6 +63,8 @@
               ldproxy
               # rpi zero
               rpi-pkgs.stdenv.cc
+              # zenoh pico
+              cmake
             ];
 
             env = {

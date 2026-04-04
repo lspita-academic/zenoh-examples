@@ -1,5 +1,5 @@
 [package]
-name = "esp32-esp-idf-config"
+name = "esp-idf-config"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -9,7 +9,3 @@ esp-idf-svc.workspace = true
 
 [build-dependencies]
 embuild.workspace = true
-
-[features]
-default = []
-experimental = ["esp-idf-svc/experimental"]
