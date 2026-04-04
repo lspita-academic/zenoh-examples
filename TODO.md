@@ -1,0 +1,1 @@
+- [ ] fix rust analyzer (it's using the host platform target)
