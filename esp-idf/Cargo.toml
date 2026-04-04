@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["examples/*"]
+members = ["examples/*", "zenoh-pico-sys"]
 
 [workspace.package]
 version = "0.1.0"
@@ -22,9 +22,10 @@ esp-idf-svc = { version = "0.52.1", features = [
   "embassy-sync",
   "embassy-time-driver"
 ] }
+esp-idf-sys = "0.37"
 log = "0.4"
 static_cell = "2.1.1"
-zenoh-pico = { path = "../shared/crates/zenoh-pico" }
+zenoh-pico-sys = { path = "zenoh-pico-sys" }
 
 [profile.dev]
 opt-level = "z"

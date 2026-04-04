@@ -1,0 +1,14 @@
+[package]
+name = "esp-idf-zenoh-pico-sys"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[[package.metadata.esp-idf-sys.extra_components]]
+component_dirs = ["components/zenoh-pico"]
+
+[dependencies]
+esp-idf-sys.workspace = true
+
+[build-dependencies]
+embuild.workspace = true

@@ -1,0 +1,5 @@
+[env]
+ZENOH_PICO_DIR = { value = "lib/zenoh-pico", relative = true }
+ZENOH_PICO_FRAG_MAX_SIZE = "4096"
+ZENOH_PICO_BATCH_UNICAST_SIZE = "2048"
+ZENOH_PICO_BATCH_MULTICAST_SIZE = "2048"

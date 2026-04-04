@@ -12,4 +12,9 @@ build-std = ["std", "panic_abort"]
 
 [env]
 # https://github.com/esp-rs/esp-idf-sys/blob/master/BUILD-OPTIONS.md
-MCU = "esp32c3"
+# Note: this variable is not used by the pio builder (`cargo build --features pio`)
+ESP_IDF_VERSION = "v5.3.3"
+# Uncomment this if you have moved the target dir by setting CARGO_TARGET_DIR or similar.
+# Required for now due to embuild limitations.
+CARGO_WORKSPACE_DIR = { value = "", relative = true }
+ESP_IDF_SYS_ROOT_CRATE = "crates/esp-idf-config"

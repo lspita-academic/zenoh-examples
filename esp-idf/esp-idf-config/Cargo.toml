@@ -5,7 +5,8 @@ edition.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-esp-idf-svc.workspace = true
+esp-idf-sys.workspace = true
+zenoh-pico-sys.workspace = true
 
 [build-dependencies]
 embuild.workspace = true

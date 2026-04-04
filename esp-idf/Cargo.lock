@@ -724,11 +724,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "esp32-esp-idf-config"
+name = "esp-idf-zenoh-pico-sys"
 version = "0.1.0"
 dependencies = [
  "embuild",
- "esp-idf-svc",
+ "esp-idf-sys",
 ]
 
 [[package]]
