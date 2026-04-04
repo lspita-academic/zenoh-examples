@@ -6,3 +6,6 @@
 
 # rust
 /*/target/
+
+# zed python
+.ropeproject
